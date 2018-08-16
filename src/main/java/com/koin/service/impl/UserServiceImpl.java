@@ -1,12 +1,10 @@
 package com.koin.service.impl;
 
-import com.koin.dataimport.DataImportSolr;
 import com.koin.model.User;
 import com.koin.repository.dao.UserRepository;
 import com.koin.repository.solr.UserSolrRepository;
 import com.koin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

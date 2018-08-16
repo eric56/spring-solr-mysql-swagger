@@ -1,5 +1,7 @@
 package com.koin.controller;
 
+import com.koin.dataimport.DataImportSolr;
+import com.koin.enums.SolrCommandsEnum;
 import com.koin.service.UserService;
 import com.koin.service.impl.UserServiceImpl;
 import com.koin.model.User;
@@ -13,6 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DataImportSolr dataImportSolr;
+
     @RequestMapping(value = "/findAllUsers", method = RequestMethod.GET)
     public @ResponseBody Iterable<User> findAllUsers(){
         return userService.findAllUsers();
@@ -20,7 +25,11 @@ public class UserController {
 
     @RequestMapping(value = "/saveUsers", method = RequestMethod.POST)
     public @ResponseBody User saveUser(@RequestBody User user){
-        return userService.saveUser(user);
+        User usersaved =  userService.saveUser(user);
+        if (usersaved.getId() != null){
+            dataImportSolr.importDataByCommand(SolrCommandsEnum.DELTA_IMPORT.name());
+        }
+        return usersaved;
     }
 
     @RequestMapping(value = "/findById/{idUser}", method = RequestMethod.GET)
