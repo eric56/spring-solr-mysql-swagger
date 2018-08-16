@@ -1,11 +1,11 @@
 package com.koin.dataimport;
 
+import com.koin.parser.JsonResponseParser;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrResponse;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.XMLResponseParser;
-import org.apache.solr.client.solrj.response.SolrResponseBase;
 import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.common.util.ContentStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class DataImportSolr {
 
                 };
 
-                resquest.setResponseParser(new XMLResponseParser());
+                resquest.setResponseParser(new JsonResponseParser());
                 return resquest.process(solrClient);
             }
         });

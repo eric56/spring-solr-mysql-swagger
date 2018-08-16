@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Service
@@ -20,9 +21,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userDbRepository;
 
-    @Autowired
-    private DataImportSolr dataImportSolr;
-
     @Override
     public Iterable<User> findAllUsers(){
         return userSolrRepository.findAll();
@@ -30,15 +28,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user){
-        user.setLast_modified(new Date());
-        User userSaved = userDbRepository.saveAndFlush(user);
-        dataImportSolr.importDataByCommand("delta-import");
-        return userSaved;
+        user.setLast_modified(Date.from(Instant.now()));
+        return userDbRepository.saveAndFlush(user);
     }
 
     @Override
     public User findById(String idUser){
-        return userSolrRepository.findById(idUser).orElse(new User());
+        return userSolrRepository.findById(Long.parseLong(idUser)).orElse(new User());
     }
 
 }

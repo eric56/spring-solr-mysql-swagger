@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface UserSolrRepository extends SolrCrudRepository<User, String> {
 
     @Query("id:*?0*")
-    Optional<User> findById(String idUser);
+    Optional<User> findById(Long idUser);
 
 }
