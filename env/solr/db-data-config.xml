@@ -1,0 +1,22 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://database:3306/financial-db" user="root" password="123456" batchSize="1" />
+  <document name="usuarios">
+    <entity 
+	name="usuario"
+  	processor="SqlEntityProcessor"
+	pk="id" 
+	query="SELECT * FROM usuarios"
+	deltaImportQuery="select * from usuarios where id='${dih.delta.id}'"
+        deltaQuery="select id from usuarios where last_modified &gt; '${dih.last_index_time}'">
+      <field column="id" name="id" />
+      <field column="nome" name="nome" />
+      <field column="email" name="email" />
+      <field column="idade" name="idade" />
+      <field column="dt_nascimento" name="dt_nascimento" />
+      <field column="last_modified" name="last_modified" />
+      <entity name="endereco" query="SELECT * FROM enderecos where id_usuario='${usuario.id}'">
+        <field column="rua" name="rua" />
+      </entity>
+    </entity>
+  </document>
+</dataConfig>

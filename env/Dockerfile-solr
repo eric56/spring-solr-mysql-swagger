@@ -1,0 +1,3 @@
+FROM solr
+COPY solr/db-data-config.xml /opt/solr/server/solr/financial-solr-core/conf
+COPY lib/mysql-connector-java-5.1.46.jar /opt/solr/contrib/dataimporthandler-extras/lib
