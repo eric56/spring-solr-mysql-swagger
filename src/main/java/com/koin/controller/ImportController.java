@@ -17,10 +17,7 @@ public class ImportController {
 
     @RequestMapping(value = "/dataImport/{command}", method = RequestMethod.GET)
     public @ResponseBody String importSolr(@PathVariable String command){
-
-        dataImportSolr.importDataByCommand(command);
-
-        return "Ok";
+        return dataImportSolr.importDataByCommand(command);
     }
 
 }

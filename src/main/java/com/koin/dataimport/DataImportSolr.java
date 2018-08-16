@@ -1,6 +1,7 @@
 package com.koin.dataimport;
 
 import com.koin.parser.JsonResponseParser;
+import com.koin.utils.RequestUtil;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrResponse;
@@ -22,39 +23,21 @@ import java.util.Collection;
 public class DataImportSolr {
 
     @Autowired
-    private SolrTemplate solrTemplate;
+    private SolrClient solrClient;
 
-    public void importDataByCommand(String command) {
+    @Autowired
+    private RequestUtil requestUtil;
 
-        solrTemplate.execute(new SolrCallback<SolrResponse>() {
-            @Override
-            public SolrResponse doInSolr(SolrClient solrClient) throws SolrServerException, IOException {
+    public String importDataByCommand(String command) {
 
-                StringBuilder url = new StringBuilder();
-                url.append("/usuarios/dataimport?command=").append(command);
+        String url = "http://localhost:8983/solr/usuarios/dataimport?command=" + command + "&clean=false&commit=true";
 
-                SolrRequest resquest = new SolrRequest(SolrRequest.METHOD.GET, url.toString()) {
-                    @Override
-                    public SolrParams getParams() {
-                        return null;
-                    }
-
-                    @Override
-                    public Collection<ContentStream> getContentStreams() throws IOException {
-                        return null;
-                    }
-
-                    @Override
-                    protected SolrResponse createResponse(SolrClient solrClient) {
-                        return null;
-                    }
-
-                };
-
-                resquest.setResponseParser(new JsonResponseParser());
-                return resquest.process(solrClient);
-            }
-        });
+        try {
+            return requestUtil.sendRequestGET(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
