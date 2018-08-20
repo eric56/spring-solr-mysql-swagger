@@ -12,6 +12,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: 123456
       MYSQL_ROOT_PASSWORD: 123456
+      TZONE: America/Sao_Paulo
     volumes:
         - ./db-data:/var/lib/mysql
   solr:
@@ -20,6 +21,6 @@ services:
     ports:
       - 8983:8983
     environment:
-      ambiente: 
+        TZONE: America/Sao_Paulo 
     networks:
       - default

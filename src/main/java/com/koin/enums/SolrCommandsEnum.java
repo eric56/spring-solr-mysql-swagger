@@ -1,8 +1,5 @@
 package com.koin.enums;
 
-import lombok.Data;
-
-@Data
 public enum SolrCommandsEnum {
 
     //Comandos de importação
@@ -14,4 +11,7 @@ public enum SolrCommandsEnum {
         this.command = command;
     }
 
+    public String getCommand() {
+        return command;
+    }
 }

@@ -2,9 +2,8 @@ package com.koin.controller;
 
 import com.koin.dataimport.DataImportSolr;
 import com.koin.enums.SolrCommandsEnum;
-import com.koin.service.UserService;
-import com.koin.service.impl.UserServiceImpl;
 import com.koin.model.User;
+import com.koin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,7 @@ public class UserController {
     public @ResponseBody User saveUser(@RequestBody User user){
         User usersaved =  userService.saveUser(user);
         if (usersaved.getId() != null){
-            dataImportSolr.importDataByCommand(SolrCommandsEnum.DELTA_IMPORT.name());
+            dataImportSolr.importDataByCommand(SolrCommandsEnum.DELTA_IMPORT.getCommand());
         }
         return usersaved;
     }
